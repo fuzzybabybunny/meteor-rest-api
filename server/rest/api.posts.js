@@ -14,7 +14,7 @@ Router.route('/api/find/posts', function(){
   this.response.setHeader("Content-Type", "application/json");
   this.response.setHeader("Access-Control-Allow-Origin", "*");
   this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end('Found some posts...  ' + JSON.stringify(
+  this.response.end(JSON.stringify(
     Posts.find().fetch()
   ));
 }, {where: 'server'});
@@ -27,7 +27,7 @@ Router.route('/api/insert/post', function(){
   this.response.setHeader("Content-Type", "application/json");
   this.response.setHeader("Access-Control-Allow-Origin", "*");
   this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end('New post has an ID of ' + JSON.stringify(
+  this.response.end(JSON.stringify(
     Posts.insert(this.request.body)
   ));
 }, {where: 'server'});
@@ -35,12 +35,12 @@ Router.route('/api/insert/post', function(){
 
 // api:      http://localhost:3000/api/find/post/:postId
 // example:  http://localhost:3000/api/find/post/314159
-Router.route('/posts/:postId', function(){
+Router.route('/api/find/posts/:postId', function(){
   this.response.statusCode = 200;
   this.response.setHeader("Content-Type", "application/json");
   this.response.setHeader("Access-Control-Allow-Origin", "*");
   this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end('Post contents... ' + JSON.stringify(
+  this.response.end(JSON.stringify(
     Posts.findOne({_id: new Meteor.Collection.ObjectID(this.params.postId) })
   ));
 }, {where: 'server'});
@@ -54,7 +54,7 @@ Router.route('/api/update/post/:postId', function(){
   this.response.setHeader("Content-Type", "application/json");
   this.response.setHeader("Access-Control-Allow-Origin", "*");
   this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end('Result of updating post is ' + JSON.stringify(
+  this.response.end(JSON.stringify(
     Posts.update({_id: new Meteor.Collection.ObjectID(this.params.postId) },{$set:{
       title: this.request.body.title,
       text: this.request.body.text
@@ -70,7 +70,7 @@ Router.route('/api/delete/post/:postId', function(){
   this.response.setHeader("Content-Type", "application/json");
   this.response.setHeader("Access-Control-Allow-Origin", "*");
   this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end('Result of deleting post is ' + JSON.stringify(
+  this.response.end(JSON.stringify(
     Posts.remove({_id: new Meteor.Collection.ObjectID(this.params.postId) })
   ));
 }, {where: 'server'});

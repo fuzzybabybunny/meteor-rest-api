@@ -23,7 +23,7 @@ Template.homePage.events({
     console.count('click #listButton');
     //var newRecordId = Math.random().toString(36).slice(2,26);
     //HTTP.call("GET", Session.get('serverUrl') + '/api/', function(error, result){
-    HTTP.call("GET", Session.get('serverUrl') + 'api/', function(error, result){
+    HTTP.call("GET", Session.get('serverUrl') + 'api/find/posts', function(error, result){
       if(result){
         console.log(result);
         Session.set('apiResponse', result.content);
@@ -42,9 +42,9 @@ Template.homePage.events({
       }
     };
     //HTTP.call("POST", Session.get('serverUrl') + '/api/', dataObject, function(error, result){
-    HTTP.call("POST", Session.get('serverUrl') + 'api/', dataObject, function(error, result){
+    HTTP.call("POST", Session.get('serverUrl') + 'api/insert/post', dataObject, function(error, result){
       if(result){
-        console.log(result);
+        console.log("Success", result);
         Session.set('apiResponse', result.content, true, 2);
       }
       if(error){
@@ -57,7 +57,7 @@ Template.homePage.events({
     //var newRecordId = Math.random().toString(36).slice(2,26);
     var newRecordId = $('#findRecordByIdInput').val();
     //HTTP.call("GET", Session.get('serverUrl') + '/api/' + newRecordId, function(error, result){
-    HTTP.call("GET", Session.get('serverUrl') + 'api/' + newRecordId, function(error, result){
+    HTTP.call("GET", Session.get('serverUrl') + 'api/find/posts/' + newRecordId, function(error, result){
       if(result){
         console.log(result);
         Session.set('apiResponse', result.content, true, 2);
@@ -79,7 +79,7 @@ Template.homePage.events({
     };
 
     //HTTP.call("PUT", Session.get('serverUrl') + '/api/' + newRecordId, updatedObject, function(error, result){
-    HTTP.call("PUT", Session.get('serverUrl') + 'api/' + newRecordId, updatedObject, function(error, result){
+    HTTP.call("PUT", Session.get('serverUrl') + 'api/update/post/' + newRecordId, updatedObject, function(error, result){
       if(result){
         console.log(result);
         Session.set('apiResponse', result.content, true, 2);
@@ -94,7 +94,7 @@ Template.homePage.events({
     //var newRecordId = Math.random().toString(36).slice(2,26);
     var newRecordId = $('#deleteRecordByIdInput').val();
     //HTTP.call("DELETE", Session.get('serverUrl') + '/api/'  + newRecordId, function(error, result){
-    HTTP.call("DELETE", Session.get('serverUrl') + 'api/'  + newRecordId, function(error, result){
+    HTTP.call("DELETE", Session.get('serverUrl') + 'api/delete/post/'  + newRecordId, function(error, result){
       if(result){
         console.log(result);
         Session.set('apiResponse', result.content, true, 2);
