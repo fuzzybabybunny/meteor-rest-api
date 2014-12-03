@@ -56,6 +56,7 @@ Template.homePage.events({
     console.count('click #readButton');
     //var newRecordId = Math.random().toString(36).slice(2,26);
     var newRecordId = $('#findRecordByIdInput').val();
+    console.log("GET", Session.get('serverUrl') + 'api/find/posts/' + newRecordId);
     //HTTP.call("GET", Session.get('serverUrl') + '/api/' + newRecordId, function(error, result){
     HTTP.call("GET", Session.get('serverUrl') + 'api/find/posts/' + newRecordId, function(error, result){
       if(result){
