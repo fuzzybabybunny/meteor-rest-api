@@ -9,68 +9,62 @@
 
 // api:      http://localhost:3000/api/find/posts
 // example:  http://localhost:3000/api/find/posts
-Router.route('/api/find/posts', function(){
-  this.response.statusCode = 200;
-  this.response.setHeader("Content-Type", "application/json");
-  this.response.setHeader("Access-Control-Allow-Origin", "*");
-  this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end(JSON.stringify(
-    Posts.find().fetch()
-  ));
+Router.route('/api/posts', function(){
+  if (this.request.method == 'GET') {
+    this.response.statusCode = 200;
+    this.response.setHeader("Content-Type", "application/json");
+    this.response.setHeader("Access-Control-Allow-Origin", "*");
+    this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    this.response.end(JSON.stringify(
+      Posts.find().fetch()
+    ));
+  } else if (this.request.method == 'POST') {
+    this.response.statusCode = 200;
+    this.response.setHeader("Content-Type", "application/json");
+    this.response.setHeader("Access-Control-Allow-Origin", "*");
+    this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    this.response.end(JSON.stringify(
+      Posts.insert(this.request.body)
+    ));
+  } else {
+    this.response.statusCode = 405;
+    this.response.end("Invalid Request Type");
+  };
 }, {where: 'server'});
-
-
-// api:      http://localhost:3000/api/insert/post
-// example:  http://localhost:3000/api/insert/post
-Router.route('/api/insert/post', function(){
-  this.response.statusCode = 200;
-  this.response.setHeader("Content-Type", "application/json");
-  this.response.setHeader("Access-Control-Allow-Origin", "*");
-  this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end(JSON.stringify(
-    Posts.insert(this.request.body)
-  ));
-}, {where: 'server'});
-
 
 // api:      http://localhost:3000/api/find/post/:postId
 // example:  http://localhost:3000/api/find/post/314159
-Router.route('/api/find/posts/:postId', function(){
-  this.response.statusCode = 200;
-  this.response.setHeader("Content-Type", "application/json");
-  this.response.setHeader("Access-Control-Allow-Origin", "*");
-  this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end(JSON.stringify(
-    Posts.findOne({_id: this.params.postId })
-  ));
-}, {where: 'server'});
-
-
-
-// api:      http://localhost:3000/api/update/post/:postId
-// example:  http://localhost:3000/api/update/post/314159
-Router.route('/api/update/post/:postId', function(){
-  this.response.statusCode = 200;
-  this.response.setHeader("Content-Type", "application/json");
-  this.response.setHeader("Access-Control-Allow-Origin", "*");
-  this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end(JSON.stringify(
-    Posts.update({_id: this.params.postId },{$set:{
-      title: this.request.body.title,
-      text: this.request.body.text
-    }})
-  ));
-}, {where: 'server'});
-
-
-// api:      http://localhost:3000/api/delete/post/:postId
-// example:  http://localhost:3000/api/delete/post/314159
-Router.route('/api/delete/post/:postId', function(){
-  this.response.statusCode = 200;
-  this.response.setHeader("Content-Type", "application/json");
-  this.response.setHeader("Access-Control-Allow-Origin", "*");
-  this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  this.response.end(JSON.stringify(
-    Posts.remove({_id: this.params.postId })
-  ));
+Router.route('/api/posts/:postId', function(){
+  if (!Posts.findOne({_id: this.params.postId})) {
+    this.response.statusCode = 404;
+    this.response.end("Invalid Request Type");
+  } else if (this.request.method == 'GET' && Posts.findOne({_id: this.params.postId })) {
+    this.response.statusCode = 200;
+    this.response.setHeader("Content-Type", "application/json");
+    this.response.setHeader("Access-Control-Allow-Origin", "*");
+    this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    this.response.end(JSON.stringify(
+      Posts.findOne({_id: this.params.postId })
+    ));
+  } else if (this.request.method == 'PUT') {
+    Posts.update({_id: this.params.postId },{$set: this.request.body});
+    this.response.statusCode = 200;
+    this.response.setHeader("Content-Type", "application/json");
+    this.response.setHeader("Access-Control-Allow-Origin", "*");
+    this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    this.response.end(JSON.stringify(
+      Posts.findOne({_id: this.params.postId })
+    ));
+  } else if (this.request.method == 'DELETE') {
+    this.response.statusCode = 200;
+    this.response.setHeader("Content-Type", "application/json");
+    this.response.setHeader("Access-Control-Allow-Origin", "*");
+    this.response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    this.response.end(JSON.stringify(
+      Posts.remove({_id: this.params.postId })
+    ));
+  } else {
+    this.response.statusCode = 405;
+    this.response.end("Invalid Request Type");
+  };
 }, {where: 'server'});
