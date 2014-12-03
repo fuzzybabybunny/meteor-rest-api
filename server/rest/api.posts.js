@@ -38,7 +38,7 @@ Router.route('/api/posts/:postId', function(){
   if (!Posts.findOne({_id: this.params.postId})) {
     this.response.statusCode = 404;
     this.response.end("Invalid Request Type");
-  } else if (this.request.method == 'GET' && Posts.findOne({_id: this.params.postId })) {
+  } else if (this.request.method == 'GET') {
     this.response.statusCode = 200;
     this.response.setHeader("Content-Type", "application/json");
     this.response.setHeader("Access-Control-Allow-Origin", "*");
